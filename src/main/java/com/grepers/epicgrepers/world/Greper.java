@@ -1,5 +1,7 @@
 package com.grepers.epicgrepers.world;
 
+import com.grepers.epicgrepers.collisions.Collidable;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import lombok.Getter;
 
@@ -8,7 +10,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Getter
-public class Greper extends Actor {
+public class Greper extends Actor implements Collidable {
+    private static final int WIDTH = 15;
+    private static final int HEIGHT = 15;
+
+    private BoundingBox boundingBox;
     private Double health;
     private String name;
     private boolean firing;
@@ -22,6 +28,7 @@ public class Greper extends Actor {
         firing = true;
         firerate = 10d;
         lastFiredTime = LocalTime.now();
+        boundingBox = new BoundingBox(initialPos.getX(), initialPos.getY(), WIDTH, HEIGHT);
     }
 
     public void kill() {
@@ -38,5 +45,10 @@ public class Greper extends Actor {
             }
         }
         return newActors;
+    }
+
+    @Override
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
     }
 }
