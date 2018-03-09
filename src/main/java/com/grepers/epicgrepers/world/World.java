@@ -27,6 +27,7 @@ public class World {
         actors.forEach(actor -> newActors.addAll(actor.update(elapsedMillis)));
         actors.addAll(newActors);
         checkForCollisions();
+        // TODO maybe too much. Need to send isDestroyed event to front end or something if not it simple wont receive more data from this Actor
         actors.removeIf(Actor::isDestroyed);
     }
 
