@@ -47,8 +47,7 @@ public class World {
         actors.forEach(a -> {
             if (a instanceof Greper) {
                 grepers.add((Greper)(a));
-            }
-            if (a instanceof Bullet) {
+            } else if (a instanceof Bullet) {
                 bullets.add((Bullet)(a));
             }
         });
