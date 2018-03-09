@@ -36,6 +36,11 @@ public class Greper extends Actor implements Collidable {
         health = 0d;
     }
 
+    public void reduceHealth(double damage) {
+        health -= damage;
+        if (health <= 0) { destroy(); }
+    }
+
     @Override
     public List<Actor> update(long elapsedMillis) {
         List<Actor> newActors = super.update(elapsedMillis);
