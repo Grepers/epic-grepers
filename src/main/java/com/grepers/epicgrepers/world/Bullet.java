@@ -14,6 +14,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class Bullet extends Actor implements Collidable {
+
     public static final int WIDTH = 6;
     public static final int HEIGHT = 6;
     public static final int DAMAGE = 10;
@@ -32,7 +33,7 @@ public class Bullet extends Actor implements Collidable {
         super(initialPos, new Point2D(sin(initialRot), cos(initialRot)).multiply(3d /*bullet speed*/), initialRot);
         this.shooterId = shooterId;
         born = LocalTime.now();
-        boundingBox = new BoundingBox(initialPos.getX(), initialPos.getY(), WIDTH, HEIGHT);
+        boundingBox = new BoundingBox(initialPos.getX() - (WIDTH / 2), initialPos.getY() - (HEIGHT - 2), WIDTH, HEIGHT);
         lifespan = 3d;
     }
 
