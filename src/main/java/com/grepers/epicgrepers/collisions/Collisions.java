@@ -1,7 +1,5 @@
 package com.grepers.epicgrepers.collisions;
 
-import javafx.geometry.BoundingBox;
-
 import java.util.Objects;
 
 public class Collisions {
@@ -25,4 +23,5 @@ public class Collisions {
         return (Math.abs(boundingBox1.getMinX() - boundingBox2.getMinX())) * 2 < (Math.abs(boundingBox1.getWidth() - boundingBox2.getWidth())) &&
                 (Math.abs(boundingBox1.getMinY() - boundingBox2.getMinY())) * 2 < (Math.abs(boundingBox1.getHeight() - boundingBox2.getHeight()));
     }
+
 }

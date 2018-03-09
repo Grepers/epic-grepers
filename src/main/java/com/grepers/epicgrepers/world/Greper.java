@@ -1,7 +1,8 @@
 package com.grepers.epicgrepers.world;
 
+import com.grepers.epicgrepers.collisions.BoundingBox;
 import com.grepers.epicgrepers.collisions.Collidable;
-import javafx.geometry.BoundingBox;
+
 import javafx.geometry.Point2D;
 import lombok.Getter;
 
@@ -44,6 +45,7 @@ public class Greper extends Actor implements Collidable {
                 lastFiredTime = LocalTime.now();
             }
         }
+        boundingBox.updatePosition(getPos().getX(), getPos().getY());
         return newActors;
     }
 
