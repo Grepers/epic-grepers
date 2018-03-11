@@ -3,11 +3,13 @@ package com.grepers.epicgrepers.dto;
 import com.grepers.epicgrepers.world.Actor;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Message DTO to client.
+ */
 @Data
 public class MessageToClient {
-    private EventType eventType;
-    private List<Actor> actors = new ArrayList<>();
+    private final EventType eventType;
+    private final List<Actor> actors;
 }
