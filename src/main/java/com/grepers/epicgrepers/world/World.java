@@ -1,17 +1,23 @@
 package com.grepers.epicgrepers.world;
 
-import com.grepers.epicgrepers.collisions.Collisions;
+import com.grepers.epicgrepers.collisions.CollisionDetection;
 import javafx.geometry.Point2D;
 import lombok.Getter;
+import org.apache.commons.math3.util.Pair;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * World simulation,
+ */
 @Component
 public class World {
 
@@ -23,47 +29,60 @@ public class World {
     public void update() {
         long elapsedMillis = ChronoUnit.MILLIS.between(lastUpdate, LocalTime.now());
         lastUpdate = LocalTime.now();
+
+        // update actors and gather new actors
         List<Actor> newActors = new ArrayList<>();
         actors.forEach(actor -> newActors.addAll(actor.update(elapsedMillis)));
+
+        // handle new actors
         actors.addAll(newActors);
-        checkForCollisions();
-        // TODO maybe too much. Need to send isDestroyed event to front end or something if not it simple wont receive more data from this Actor
-        actors.removeIf(Actor::isDestroyed);
+        //TODO inform clients of new actors
+
+        // handle collisions
+        List<Pair<Actor, Actor>> colidingActors = checkForCollisions();
+        //TODO handle collision events
+
+        // handle destroyed actors
+        List<Actor> destroyedActors = actors.stream().filter(Actor::isDestroyed).collect(Collectors.toList());
+        actors.removeAll(destroyedActors);
+        //TODO inform clients of destroyed actors
     }
 
+    /**
+     * Create a new greper.
+     *
+     * @return Greper created.
+     */
     public Greper spawnGreper() {
-        Greper greper = new Greper(Point2D.ZERO, Point2D.ZERO.add(1,0), 0d, "zero");
+        Greper greper = new Greper(Point2D.ZERO);
         actors.add(greper);
         return greper;
     }
 
-    public void killGreper(Greper greper) {
-        greper.kill();
-    }
-
-    private void checkForCollisions() {
-        List<Greper> grepers = new ArrayList<>();
-        List<Bullet> bullets = new ArrayList<>();
-
-        actors.forEach(a -> {
-            if (a instanceof Greper) {
-                grepers.add((Greper)(a));
-            } else if (a instanceof Bullet) {
-                bullets.add((Bullet)(a));
-            }
-        });
-
-        for (int i = 0; i < grepers.size(); i++) {
-            for (int j = 0; j < bullets.size(); j++) {
-                // avoid taking health from the bullet's shooter
-                if (grepers.get(i).getId().equals(bullets.get(j).getShooterId())) {
-                    continue;
-                }
-                if (Collisions.getInstance().areColliding(grepers.get(i), bullets.get(j))) {
-                    grepers.get(i).reduceHealth(Bullet.DAMAGE);
-                }
-            }
-        }
-
+    private List<Pair<Actor, Actor>> checkForCollisions() {
+        //TODO check for collisions
+//        List<Greper> grepers = new ArrayList<>();
+//        List<Bullet> bullets = new ArrayList<>();
+//
+//        actors.forEach(a -> {
+//            if (a instanceof Greper) {
+//                grepers.add((Greper) (a));
+//            } else if (a instanceof Bullet) {
+//                bullets.add((Bullet) (a));
+//            }
+//        });
+//
+//        for (int i = 0; i < grepers.size(); i++) {
+//            for (int j = 0; j < bullets.size(); j++) {
+//                // avoid taking health from the bullet's shooter
+//                if (grepers.get(i).getId().equals(bullets.get(j).getShooterId())) {
+//                    continue;
+//                }
+//                if (CollisionDetection.getInstance().areColliding(grepers.get(i), bullets.get(j))) {
+//                    grepers.get(i).reduceHealth(Bullet.DAMAGE);
+//                }
+//            }
+//        }
+        return Collections.emptyList();
     }
 }

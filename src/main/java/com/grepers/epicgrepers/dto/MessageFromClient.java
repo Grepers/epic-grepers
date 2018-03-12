@@ -9,6 +9,6 @@ import lombok.Data;
 @Data
 public class MessageFromClient {
     private Point2D vel;
-    private Double rot;
-    private Boolean firing;
+    private double rot;
+    private boolean firing;
 }

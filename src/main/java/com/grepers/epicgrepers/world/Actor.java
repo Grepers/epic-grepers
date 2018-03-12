@@ -32,12 +32,13 @@ public class Actor {
     private Point2D vel; // meters per seconds
 
     @NonNull
-    private Double rot; // radians
+    @Setter(AccessLevel.PROTECTED)
+    private double rot; // radians
 
     @JsonIgnore
     private boolean destroyed = false; // ready to be cleaned up
 
-    @NonNull
+    @Setter(AccessLevel.PROTECTED)
     @JsonIgnore
     private String collisionGroup;
 

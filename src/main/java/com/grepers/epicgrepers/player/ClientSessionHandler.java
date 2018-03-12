@@ -47,9 +47,9 @@ public class ClientSessionHandler {
      * @param messageFromClient Message.
      */
     public void handleMessage(MessageFromClient messageFromClient) {
-        greper.setVel(messageFromClient.getVel());
-        greper.setRot(messageFromClient.getRot());
-        greper.setFiring(messageFromClient.getFiring());
+        greper.setVelVersor(messageFromClient.getVel());
+        greper.rotateTo(messageFromClient.getRot());
+        greper.setFiring(messageFromClient.isFiring());
     }
 
     /**
@@ -57,7 +57,7 @@ public class ClientSessionHandler {
      */
     public void handleClosed() {
         if (greper != null) {
-            world.killGreper(greper);
+            greper.kill();
         }
     }
 }

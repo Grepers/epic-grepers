@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class CollisionRectangle implements CollisionShape {
-    private final double minX;
-    private final double minY;
-    private final double maxX;
-    private final double maxY;
+    private final double top;
+    private final double right;
+    private final double bottom;
+    private final double left;
 }
