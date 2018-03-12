@@ -1,6 +1,7 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
+import com.grepers.epicgrepers.collisions.CollisionRectangle;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Greper actor in the world.
  */
 @Getter
-public class Greper extends Actor {
+public class Greper extends Actor implements CollisionRectangle {
 
     private String name;
     private double radius; // meters
@@ -42,7 +43,7 @@ public class Greper extends Actor {
         radius = greperConfig.get("radius");
         name = new RandomNameGenerator().next();
         setCollisionGroup(getId().toString());
-        setCollisionShape(new CollisionCircle(radius));
+        //setCollisionShape(new CollisionCircle(radius)); // TODO should implement or something else
     }
 
     /**
@@ -88,5 +89,25 @@ public class Greper extends Actor {
      */
     public void rotateTo(double rot) {
         setRot(MathUtils.normalizeAngle(rot, 0d));
+    }
+
+    @Override
+    public double getTop() {
+        return 0;
+    }
+
+    @Override
+    public double getRight() {
+        return 0;
+    }
+
+    @Override
+    public double getBottom() {
+        return 0;
+    }
+
+    @Override
+    public double getLeft() {
+        return 0;
     }
 }

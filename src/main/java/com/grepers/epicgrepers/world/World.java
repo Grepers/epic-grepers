@@ -1,5 +1,6 @@
 package com.grepers.epicgrepers.world;
 
+import com.grepers.epicgrepers.collisions.CollisionDetection;
 import javafx.geometry.Point2D;
 import lombok.Getter;
 import org.apache.commons.math3.util.Pair;
@@ -58,29 +59,29 @@ public class World {
     }
 
     private List<Pair<Actor, Actor>> checkForCollisions() {
-        //TODO check for collisions
-//        List<Greper> grepers = new ArrayList<>();
-//        List<Bullet> bullets = new ArrayList<>();
-//
-//        actors.forEach(a -> {
-//            if (a instanceof Greper) {
-//                grepers.add((Greper) (a));
-//            } else if (a instanceof Bullet) {
-//                bullets.add((Bullet) (a));
-//            }
-//        });
-//
-//        for (int i = 0; i < grepers.size(); i++) {
-//            for (int j = 0; j < bullets.size(); j++) {
-//                // avoid taking health from the bullet's shooter
-//                if (grepers.get(i).getId().equals(bullets.get(j).getShooterId())) {
-//                    continue;
-//                }
-//                if (CollisionDetection.getInstance().areColliding(grepers.get(i), bullets.get(j))) {
-//                    grepers.get(i).reduceHealth(Bullet.DAMAGE);
-//                }
-//            }
-//        }
+        //TODO check for collisions ??? this works for any combination of 'areColliding' {@link CollisionShape} impls
+        List<Greper> grepers = new ArrayList<>();
+        List<Bullet> bullets = new ArrayList<>();
+
+        actors.forEach(a -> {
+            if (a instanceof Greper) {
+                grepers.add((Greper) (a));
+            } else if (a instanceof Bullet) {
+                bullets.add((Bullet) (a));
+            }
+        });
+
+        for (int i = 0; i < grepers.size(); i++) {
+            for (int j = 0; j < bullets.size(); j++) {
+                // avoid taking health from the bullet's shooter
+                if (grepers.get(i).getCollisionGroup().equals(bullets.get(j).getCollisionGroup())) {
+                    continue;
+                }
+                if (CollisionDetection.getInstance().areColliding(grepers.get(i), bullets.get(j))) {
+                    // grepers.get(i).reduceHealth(Bullet.DAMAGE); TODO change for the method that reduces health
+                }
+            }
+        }
         return Collections.emptyList();
     }
 }

@@ -15,7 +15,7 @@ import static java.lang.Math.sin;
 /**
  * Bullet representation in the world.
  */
-public class Bullet extends Actor {
+public class Bullet extends Actor implements CollisionCircle {
 
     private LocalTime bornTime = LocalTime.now();
     private double radius; // meters
@@ -39,7 +39,7 @@ public class Bullet extends Actor {
         damage = greperConfig.get("damage");
         setVel(new Point2D(sin(initialRot), cos(initialRot)).multiply(maxVel));
         setCollisionGroup(collisionGroup);
-        setCollisionShape(new CollisionCircle(radius));
+        //setCollisionShape(new CollisionCircle(radius)); // TODO should implement or something else
     }
 
     /**
@@ -54,5 +54,20 @@ public class Bullet extends Actor {
             destroy();
         }
         return super.update(elapsedMillis);
+    }
+
+    @Override
+    public double getRadius() {
+        return 0;
+    }
+
+    @Override
+    public double getX() {
+        return 0;
+    }
+
+    @Override
+    public double getY() {
+        return 0;
     }
 }

@@ -4,46 +4,63 @@ package com.grepers.epicgrepers.collisions;
  * Collision detector for several collision shapes.
  */
 public class CollisionDetection {
+
+    private static final CollisionDetection instance;
+    private static final double ZERO_RADIUS = 0.0;
+
+    static {
+        instance = new CollisionDetection();
+    }
+
+    public static CollisionDetection getInstance() { return instance; }
+
     /**
      * No need to instantiate this class.
      */
     private CollisionDetection() {
     }
 
-    public static boolean areColliding(CollisionShape shapeA, CollisionShape shapeB) {
-        if (shapeA instanceof CollisionRectangle && shapeB instanceof CollisionRectangle)
-            return areCollidingRectangles((CollisionRectangle) shapeA, (CollisionRectangle) shapeB);
-        else if (shapeA instanceof CollisionCircle && shapeB instanceof CollisionCircle)
-            return areCollidingCircles((CollisionCircle) shapeA, (CollisionCircle) shapeB);
-        else if (shapeA instanceof CollisionRectangle && shapeB instanceof CollisionCircle)
-            return areCollidingRectangleCircle((CollisionRectangle) shapeA, (CollisionCircle) shapeB);
-        else if (shapeA instanceof CollisionCircle && shapeB instanceof CollisionRectangle)
-            return areCollidingRectangleCircle((CollisionRectangle) shapeB, (CollisionCircle) shapeA);
-        else
-            return false;
+    public <CR extends CollisionRectangle> boolean areColliding(CR rect1, CR rect2) {
+        return (Math.abs(rect1.getLeft() - rect2.getLeft())) * 2 < (Math.abs(rect1.getRight() - rect2.getRight())) &&
+                (Math.abs(rect1.getBottom() - rect2.getBottom())) * 2 < (Math.abs(rect1.getTop() - rect2.getTop()));
     }
 
-    private static boolean areCollidingRectangleCircle(CollisionRectangle shapeA, CollisionCircle shapeB) {
-        //TODO check collision between rectangle and circle
+    public <CC extends CollisionCircle> boolean areColliding(CC circle1, CC circle2) {
+        double xDif = circle1.getX() - circle2.getX();
+        double yDif = circle1.getY() - circle2.getY();
+        double squaredDistance = ( xDif * xDif ) + ( yDif * yDif );
+
+        return ( squaredDistance < (circle1.getRadius() + circle2.getRadius()) * (circle1.getRadius() + circle2.getRadius()) );
+    }
+
+    public <CC extends CollisionCircle, CR extends CollisionRectangle> boolean areColliding(CR rect, CC circle) {
+        if (pointRectIntersect(rect.getTop(), rect.getLeft(), circle.getX(), circle.getY())
+                || pointRectIntersect(rect.getTop(), rect.getRight(), circle.getX(), circle.getY())
+                || pointRectIntersect(rect.getBottom(), rect.getLeft(), circle.getX(), circle.getY())
+                || pointRectIntersect(rect.getBottom(), rect.getRight(), circle.getX(), circle.getY())) {
+            return true;
+        }
+        if (pointCircleIntersect(circle, rect.getTop(), rect.getLeft())
+                || pointCircleIntersect(circle, rect.getTop(), rect.getRight())
+                || pointCircleIntersect(circle, rect.getBottom(), rect.getLeft())
+                || pointCircleIntersect(circle, rect.getBottom(), rect.getRight())) {
+            return true;
+        }
         return false;
     }
 
-    private static boolean areCollidingCircles(CollisionCircle shapeA, CollisionCircle shapeB) {
-        //TODO check collision between circles
-        return false;
+    private <CC extends CollisionCircle> boolean pointCircleIntersect(CC circle, double px, double py) {
+        double distX = px - circle.getX();
+        double distY = py - circle.getY();
+
+        return Math.sqrt((distX*distX) + (distY*distY)) <= circle.getRadius();
     }
 
-    /**
-     * Check collision between two rectangles.
-     *
-     * @param rectA Rectangle A.
-     * @param rectB Rectangle B.
-     * @return True if colliding.
-     */
-    public static boolean areCollidingRectangles(CollisionRectangle rectA, CollisionRectangle rectB) {
-        //TODO check collision between rectangles
-//        return (Math.abs(rectA.getMinX() - rectB.getMinX())) * 2 < (Math.abs(rectA.getMaxX() - rectB.getMaxX())) &&
-//                (Math.abs(rectA.getMinY() - rectB.getMinY())) * 2 < (Math.abs(rectA.getMaxY() - rectB.getMaxY()));
-        return false;
+    private boolean pointRectIntersect(double rx, double ry, double px, double py) {
+        double distX = px - rx;
+        double distY = py - ry;
+
+        return Math.sqrt((distX*distX) + (distY*distY)) <= ZERO_RADIUS;
     }
+
 }
