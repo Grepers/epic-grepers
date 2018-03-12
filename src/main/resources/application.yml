@@ -1,0 +1,5 @@
+bullet:
+  radius: 0.1
+  lifespan: 3000
+  maxVel: 5
+  damage: 50

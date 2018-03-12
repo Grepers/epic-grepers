@@ -2,40 +2,64 @@ package com.grepers.epicgrepers.world;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.grepers.epicgrepers.collisions.CollisionShape;
 import javafx.geometry.Point2D;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
+/**
+ * Base class for every object in the world.
+ */
 @Getter
+@RequiredArgsConstructor
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type") // class name in json
 public class Actor {
-    private UUID id;
-    @JsonIgnore
-    private boolean destroyed;
+
+    private UUID id = UUID.randomUUID(); // unique id
+
+    @NonNull
     private Point2D pos; // meters
-    private Point2D vel; // meters / seconds
+
+    @NonNull
+    @Setter(AccessLevel.PROTECTED)
+    private Point2D vel; // meters per seconds
+
+    @NonNull
     private Double rot; // radians
 
-    public Actor(Point2D initialPos, Point2D initialVel, Double initialRot) {
-        id = UUID.randomUUID();
-        destroyed = false;
-        pos = initialPos;
-        vel = initialVel;
-        rot = initialRot;
-    }
+    @JsonIgnore
+    private boolean destroyed = false; // ready to be cleaned up
 
+    @NonNull
+    @JsonIgnore
+    private String collisionGroup;
+
+    @Setter(AccessLevel.PROTECTED)
+    @JsonIgnore
+    private CollisionShape collisionShape;
+
+    /**
+     * Update this Actor and return any generated new Actors.
+     *
+     * @param elapsedMillis Time passed since last update.
+     * @return List of new Actors created, or empty list.
+     */
     public List<Actor> update(long elapsedMillis) {
-        List<Actor> newActors = new ArrayList<>();
+        // update position
         pos = pos.add(vel.multiply(elapsedMillis / 1000d));
-        return newActors;
+        return Collections.emptyList();
     }
 
+    /**
+     * Mark this Actor for clean up.
+     */
     public void destroy() {
         destroyed = true;
     }
