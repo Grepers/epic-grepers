@@ -1,13 +1,13 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
+import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -18,17 +18,9 @@ import static java.lang.Math.sin;
 public class Bullet extends Actor {
 
     private LocalTime bornTime = LocalTime.now();
-
-    @Value("${bullet.radius}")
     private double radius; // meters
-
-    @Value("${bullet.lifespan}")
     private double lifespan; // seconds
-
-    @Value("${bullet.maxVel}")
     private double maxVel; // meters per second
-
-    @Value("${bullet.damage}")
     private double damage; // points
 
     /**
@@ -40,6 +32,11 @@ public class Bullet extends Actor {
      */
     public Bullet(Point2D initialPos, double initialRot, String collisionGroup) {
         super(initialPos, Point2D.ZERO, initialRot);
+        Map<String, Double> greperConfig = ConfigProvider.getActor("bullet");
+        radius = greperConfig.get("radius");
+        lifespan = greperConfig.get("lifespan");
+        maxVel = greperConfig.get("maxVel");
+        damage = greperConfig.get("damage");
         setVel(new Point2D(sin(initialRot), cos(initialRot)).multiply(maxVel));
         setCollisionGroup(collisionGroup);
         setCollisionShape(new CollisionCircle(radius));

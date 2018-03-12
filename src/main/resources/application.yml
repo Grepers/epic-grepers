@@ -1,10 +1,11 @@
-greper:
-  radius: 1
-  maxVel: 5
-  health: 100
-  firerate: 3
-bullet:
-  radius: 0.1
-  lifespan: 3
-  maxVel: 15
-  damage: 50
+actors:
+  greper:
+    radius: 1
+    maxVel: 5
+    health: 100
+    firerate: 3
+  bullet:
+    radius: 0.1
+    lifespan: 3
+    maxVel: 15
+    damage: 50

@@ -1,42 +1,32 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
+import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.math3.util.MathUtils;
 import org.kohsuke.randname.RandomNameGenerator;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Greper actor in the world.
  */
 @Getter
-@Configurable
 public class Greper extends Actor {
 
     private String name;
-
-    @Value("${greper.radius}")
     private double radius; // meters
-
-    @Value("${greper.maxVel}")
     private double maxVel; // meters per second
-
-    @Value("${greper.health}")
     private double health;
-
-    @Value("${greper.firerate}")
     private double firerate; // rounds per second
     private LocalTime lastFiredTime = LocalTime.now();
     @Setter
     private boolean firing = false;
-
 
     /**
      * Constructor initializing values.
@@ -45,6 +35,11 @@ public class Greper extends Actor {
      */
     public Greper(Point2D initialPos) {
         super(initialPos, Point2D.ZERO, 0d);
+        Map<String, Double> greperConfig = ConfigProvider.getActor("greper");
+        health = greperConfig.get("health");
+        firerate = greperConfig.get("firerate");
+        maxVel = greperConfig.get("maxVel");
+        radius = greperConfig.get("radius");
         name = new RandomNameGenerator().next();
         setCollisionGroup(getId().toString());
         setCollisionShape(new CollisionCircle(radius));

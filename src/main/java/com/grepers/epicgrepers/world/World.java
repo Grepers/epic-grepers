@@ -1,10 +1,8 @@
 package com.grepers.epicgrepers.world;
 
-import com.grepers.epicgrepers.collisions.CollisionDetection;
 import javafx.geometry.Point2D;
 import lombok.Getter;
 import org.apache.commons.math3.util.Pair;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
