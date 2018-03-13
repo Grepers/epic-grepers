@@ -35,14 +35,14 @@ public class Greper extends Actor {
      */
     public Greper(Point2D initialPos) {
         super(initialPos, Point2D.ZERO, 0d);
-        Map<String, Double> greperConfig = ConfigProvider.getActor("greper");
+        Map<String, Double> greperConfig = ConfigProvider.getActor((getClass().getSimpleName()));
         health = greperConfig.get("health");
         firerate = greperConfig.get("firerate");
         maxVel = greperConfig.get("maxVel");
         radius = greperConfig.get("radius");
         name = new RandomNameGenerator().next();
         setCollisionGroup(getId().toString());
-        setCollisionShape(new CollisionCircle(radius));
+        setCollisionShape(new CollisionCircle(initialPos, radius));
     }
 
     /**

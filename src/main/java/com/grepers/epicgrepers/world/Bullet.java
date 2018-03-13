@@ -32,14 +32,14 @@ public class Bullet extends Actor {
      */
     public Bullet(Point2D initialPos, double initialRot, String collisionGroup) {
         super(initialPos, Point2D.ZERO, initialRot);
-        Map<String, Double> greperConfig = ConfigProvider.getActor("bullet");
+        Map<String, Double> greperConfig = ConfigProvider.getActor((getClass().getSimpleName()));
         radius = greperConfig.get("radius");
         lifespan = greperConfig.get("lifespan");
         maxVel = greperConfig.get("maxVel");
         damage = greperConfig.get("damage");
         setVel(new Point2D(sin(initialRot), cos(initialRot)).multiply(maxVel));
         setCollisionGroup(collisionGroup);
-        setCollisionShape(new CollisionCircle(radius));
+        setCollisionShape(new CollisionCircle(initialPos, radius));
     }
 
     /**

@@ -53,8 +53,11 @@ public class Actor {
      * @return List of new Actors created, or empty list.
      */
     public List<Actor> update(long elapsedMillis) {
-        // update position
-        pos = pos.add(vel.multiply(elapsedMillis / 1000d));
+        // update position if needed
+        if (!vel.equals(Point2D.ZERO)) {
+            pos = pos.add(vel.multiply(elapsedMillis / 1000d));
+            collisionShape.update(pos);
+        }
         return Collections.emptyList();
     }
 
