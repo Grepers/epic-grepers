@@ -1,14 +1,6 @@
-map: office
-actors:
-  greper:
-    radius: 1
-    maxVel: 5
-    health: 100
-    firerate: 3
-  bullet:
-    radius: 0.1
-    lifespan: 3
-    maxVel: 15
-    damage: 50
-  wall:
-    health: 1000
+Wall:
+  initialPos:
+    x: 10
+    y: 0
+  width: 5
+  height: 10

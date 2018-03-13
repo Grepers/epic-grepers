@@ -1,4 +1,4 @@
-map: office
+map: "/map-office.yml"
 actors:
   Greper:
     radius: 1
