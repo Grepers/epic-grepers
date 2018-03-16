@@ -17,7 +17,7 @@ import java.util.Map;
  * Greper actor in the world.
  */
 @Getter
-public class Greper extends Actor {
+public class Greper extends Actor<CollisionCircle> {
 
     private String name;
     private double radius; // meters

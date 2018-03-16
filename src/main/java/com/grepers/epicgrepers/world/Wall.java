@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Wall representation in the world.
  */
-public class Wall extends Actor {
+public class Wall extends Actor<CollisionRectangle> {
 
     private double width;
     private double height;

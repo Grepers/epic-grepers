@@ -20,7 +20,7 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type") // class name in json
-public class Actor {
+public class Actor<S extends CollisionShape> {
 
     private UUID id = UUID.randomUUID(); // unique id
 
@@ -44,7 +44,7 @@ public class Actor {
 
     @Setter(AccessLevel.PROTECTED)
     @JsonIgnore
-    private CollisionShape collisionShape;
+    private S collisionShape;
 
     /**
      * Update this Actor and return any generated new Actors.

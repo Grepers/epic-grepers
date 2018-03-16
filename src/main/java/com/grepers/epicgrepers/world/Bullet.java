@@ -15,7 +15,7 @@ import static java.lang.Math.sin;
 /**
  * Bullet representation in the world.
  */
-public class Bullet extends Actor {
+public class Bullet extends Actor<CollisionCircle> {
 
     private LocalTime bornTime = LocalTime.now();
     private double radius; // meters
