@@ -5,6 +5,7 @@ import com.grepers.epicgrepers.dto.MessageFromClient;
 import com.grepers.epicgrepers.dto.MessageToClient;
 import com.grepers.epicgrepers.world.Greper;
 import com.grepers.epicgrepers.world.World;
+import javafx.geometry.Point2D;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +48,7 @@ public class ClientSessionHandler {
      * @param messageFromClient Message.
      */
     public void handleMessage(MessageFromClient messageFromClient) {
-        greper.setVelVersor(messageFromClient.getVel());
+        greper.setVelVersor(new Point2D(messageFromClient.getVel().x, messageFromClient.getVel().y));
         greper.rotateTo(messageFromClient.getRot());
         greper.setFiring(messageFromClient.isFiring());
     }

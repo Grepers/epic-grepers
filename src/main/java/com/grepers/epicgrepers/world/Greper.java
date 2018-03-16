@@ -66,6 +66,8 @@ public class Greper extends Actor {
      */
     public void kill() {
         health = 0d;
+        setVelVersor(Point2D.ZERO);
+        setFiring(false);
     }
 
     public boolean isDead() {

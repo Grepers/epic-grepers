@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -58,7 +59,7 @@ public class Actor {
             pos = pos.add(vel.multiply(elapsedMillis / 1000d));
             collisionShape.update(pos);
         }
-        return Collections.emptyList();
+        return new ArrayList<>();
     }
 
     /**
