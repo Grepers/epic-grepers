@@ -1,6 +1,8 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
+import com.grepers.epicgrepers.collisions.CollisionRectangle;
+import com.grepers.epicgrepers.collisions.CollisionShape;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 
@@ -54,5 +56,34 @@ public class Bullet extends Actor<CollisionCircle> {
             destroy();
         }
         return super.update(elapsedMillis);
+    }
+
+    @Override
+    public <SS extends CollisionShape, A extends Actor<SS>> void collidingWith(A actor) {
+        if (actor instanceof Greper){
+            // TODO I suppose eliminate bullet
+        } else if (actor instanceof Wall) {
+            // TODO I suppose eliminate bullet
+        }
+    }
+
+    public LocalTime getBornTime() {
+        return bornTime;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public double getLifespan() {
+        return lifespan;
+    }
+
+    public double getMaxVel() {
+        return maxVel;
+    }
+
+    public double getDamage() {
+        return damage;
     }
 }

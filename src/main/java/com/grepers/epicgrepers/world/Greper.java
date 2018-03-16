@@ -1,6 +1,7 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
+import com.grepers.epicgrepers.collisions.CollisionShape;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 import lombok.Getter;
@@ -61,6 +62,19 @@ public class Greper extends Actor<CollisionCircle> {
         return newActors;
     }
 
+    @Override
+    public <SS extends CollisionShape, A extends Actor<SS>> void collidingWith(A actor) {
+        if (!actor.getCollisionGroup().equals(this.getCollisionGroup())) {
+            if (actor instanceof Greper || actor instanceof Wall) {
+                // TODO go back
+            } else if (actor instanceof Bullet) {
+                if (!actor.getCollisionGroup().equals(getCollisionGroup())) {
+                    reduceHealth(((Bullet)actor).getDamage());
+                }
+            }
+        }
+    }
+
     /**
      * Kill the greper without removing it from the world.
      */
@@ -88,5 +102,9 @@ public class Greper extends Actor<CollisionCircle> {
      */
     public void rotateTo(double rot) {
         setRot(MathUtils.normalizeAngle(rot, 0d));
+    }
+
+    private void reduceHealth(double damage) {
+        health -= damage;
     }
 }

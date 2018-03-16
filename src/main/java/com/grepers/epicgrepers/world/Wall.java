@@ -1,6 +1,7 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionRectangle;
+import com.grepers.epicgrepers.collisions.CollisionShape;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 
@@ -26,5 +27,16 @@ public class Wall extends Actor<CollisionRectangle> {
         health = greperConfig.get("health");
         setCollisionGroup(getId().toString());
         setCollisionShape(new CollisionRectangle(initialPos, width, height));
+    }
+
+    @Override
+    public <SS extends CollisionShape, A extends Actor<SS>> void collidingWith(A actor) {
+        if (actor instanceof Bullet) {
+            reduceHealth(((Bullet)actor).getDamage());
+        }
+    }
+
+    private void reduceHealth(double damage) {
+        health -= damage;
     }
 }
