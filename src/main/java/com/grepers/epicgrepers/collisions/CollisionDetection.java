@@ -40,9 +40,9 @@ public class CollisionDetection {
             }
         } else {
             if (shape2 instanceof CollisionRectangle) {
-                result = areColliding(shape1, shape2);
+                result = areColliding((CollisionRectangle)shape2, (CollisionCircle)shape1);
             } else {
-                result = areColliding(shape1, shape2);
+                result = areColliding((CollisionCircle) shape1, (CollisionCircle)shape2);
             }
         }
         return result;
