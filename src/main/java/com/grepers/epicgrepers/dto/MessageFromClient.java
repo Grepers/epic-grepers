@@ -1,7 +1,6 @@
 package com.grepers.epicgrepers.dto;
 
 import com.sun.javafx.geom.Vec2d;
-import javafx.geometry.Point2D;
 import lombok.Data;
 
 /**

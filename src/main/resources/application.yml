@@ -1,6 +1,9 @@
 map: "/map-office.yml"
 actors:
   Greper:
+    sightAperture: 2
+    sightRadius: 5000
+    hearingRadius: 200
     radius: 0.5
     maxVel: 5
     health: 100
@@ -12,3 +15,10 @@ actors:
     damage: 50
   Wall:
     health: 1000
+  Moustache:
+    sightAperture: 2
+    sightRadius: 5000
+    hearingRadius: 200
+    radius: 0.5
+    maxVel: 5
+    health: 100
