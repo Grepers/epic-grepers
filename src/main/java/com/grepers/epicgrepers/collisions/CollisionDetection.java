@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class CollisionDetection {
 
-    public <S extends CollisionShape, A extends Actor<S>> List<Pair<A, A>> checkForCollisions(List<A> actors) {
+    public <A extends Actor> List<Pair<A, A>> checkForCollisions(List<A> actors) {
 
         List<Pair<A, A>> actorsColliding = new ArrayList<>();
 
