@@ -1,8 +1,7 @@
-package com.grepers.epicgrepers.collisions;
+package com.grepers.epicgrepers.collisions.events;
 
-import com.grepers.epicgrepers.world.Actor;
-
-public interface CollisionEvent<A extends Actor> {
-
-    public void collidingWith(A actor);
+/**
+ * A tagging interface that all collision event listener interfaces must extend.
+ */
+public interface CollisionEvent {
 }

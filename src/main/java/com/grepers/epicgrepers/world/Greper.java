@@ -2,6 +2,7 @@ package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
 import com.grepers.epicgrepers.collisions.CollisionCone;
+import com.grepers.epicgrepers.collisions.events.CollisionActorEvent;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.Map;
  * Greper actor in the world.
  */
 @Getter
-public class Greper extends Sentient {
+public class Greper extends Sentient implements CollisionActorEvent {
 
     private String name;
     private double sightAperture; // radians pointing to positive X

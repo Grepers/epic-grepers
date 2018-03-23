@@ -1,6 +1,11 @@
 package com.grepers.epicgrepers.collisions.events;
 
-
-public class CollisionEventHandler implements CollisionBulletEvent, CollisionGreperEvent, CollisionMoustacheEvent, CollisionWallEvent {
-
+/**
+ * A collision event listener implementing all the methods in all the {@link CollisionBulletEvent},
+ * {@link CollisionGreperEvent}, {@link CollisionMoustacheEvent} and {@link CollisionWallEvent} interfaces.
+ *
+ * All collision event interfaces have their methods with an empty default body so you can give an implementation
+ * only for those events you are interested in.
+ */
+public interface CollisionActorEvent extends CollisionBulletEvent, CollisionGreperEvent, CollisionMoustacheEvent, CollisionWallEvent {
 }
