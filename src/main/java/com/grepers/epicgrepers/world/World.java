@@ -51,7 +51,7 @@ public class World {
                     actors.add(new Wall(
                             new Point2D(value.findValue("x").asDouble(), value.findValue("y").asDouble()),
                             value.findValue("width").asDouble(),
-                            value.findValue("height").asDouble()));
+                            value.findValue("depth").asDouble()));
                 }
             });
         } catch (IOException e) {

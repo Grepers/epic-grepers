@@ -13,6 +13,7 @@ actors:
     lifespan: 3
     maxVel: 50
     damage: 50
+    health: 1
   Wall:
     health: 1000
   Moustache:

@@ -1,7 +1,6 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionCircle;
-import com.grepers.epicgrepers.collisions.CollisionCone;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
 import lombok.Getter;
@@ -14,6 +13,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 /**
  * Greper actor in the world.
  */
@@ -21,12 +23,8 @@ import java.util.Map;
 public class Greper extends Sentient {
 
     private String name;
-    private double sightAperture; // radians pointing to positive X
-    private double sightRadius; // meters
-    private double hearingRadius; // meters
     private double radius; // meters
     private double maxVel; // meters per second
-    private double health;
     private double firerate; // rounds per second
     private LocalTime lastFiredTime = LocalTime.now();
     @Setter
@@ -37,21 +35,15 @@ public class Greper extends Sentient {
      *
      * @param initialPos Initial position.
      */
-    public Greper(Point2D initialPos) {
+    Greper(Point2D initialPos) {
         super(initialPos, Point2D.ZERO, 0d);
         Map<String, Double> greperConfig = ConfigProvider.getActor((getClass().getSimpleName()));
-        health = greperConfig.get("health");
         firerate = greperConfig.get("firerate");
         maxVel = greperConfig.get("maxVel");
         radius = greperConfig.get("radius");
-        hearingRadius = greperConfig.get("hearingRadius");
-        sightRadius = greperConfig.get("sightRadius");
-        sightAperture = greperConfig.get("sightAperture");
         name = new RandomNameGenerator().next();
         setCollisionGroup(getId().toString());
         setCollisionShape(new CollisionCircle(initialPos, radius));
-        setCollisionHearing(new CollisionCircle(initialPos, hearingRadius));
-        setCollisionSight(new CollisionCone(initialPos, sightRadius, sightAperture));
     }
 
     /**
@@ -64,7 +56,9 @@ public class Greper extends Sentient {
     public List<Actor> update(long elapsedMillis) {
         List<Actor> newActors = super.update(elapsedMillis);
         if (firing && ChronoUnit.MILLIS.between(lastFiredTime, LocalTime.now()) > 1000d / firerate) {
-            newActors.add(new Bullet(getPos(), getRot(), getCollisionGroup()));
+            newActors.add(new Bullet(
+                    getPos().add(new Point2D(sin(getRot()), cos(getRot())).multiply(radius)),
+                    getRot(), getCollisionGroup()));
             lastFiredTime = LocalTime.now();
         }
         return newActors;
@@ -74,18 +68,8 @@ public class Greper extends Sentient {
      * Kill the greper without removing it from the world.
      */
     public void kill() {
-        health = 0d;
-        setVelVersor(Point2D.ZERO);
+        super.kill();
         setFiring(false);
-    }
-
-    /**
-     * Check dead status.
-     *
-     * @return True if dead.
-     */
-    public boolean isDead() {
-        return health == 0d;
     }
 
     /**

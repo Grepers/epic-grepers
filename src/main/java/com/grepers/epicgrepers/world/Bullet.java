@@ -3,6 +3,7 @@ package com.grepers.epicgrepers.world;
 import com.grepers.epicgrepers.collisions.CollisionCircle;
 import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
+import lombok.Getter;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -15,6 +16,7 @@ import static java.lang.Math.sin;
 /**
  * Bullet representation in the world.
  */
+@Getter
 public class Bullet extends Actor {
 
     private LocalTime bornTime = LocalTime.now();
@@ -30,7 +32,7 @@ public class Bullet extends Actor {
      * @param initialRot     Initial rotation.
      * @param collisionGroup Collision group's name.
      */
-    public Bullet(Point2D initialPos, double initialRot, String collisionGroup) {
+    Bullet(Point2D initialPos, double initialRot, String collisionGroup) {
         super(initialPos, Point2D.ZERO, initialRot);
         Map<String, Double> greperConfig = ConfigProvider.getActor((getClass().getSimpleName()));
         radius = greperConfig.get("radius");
@@ -50,9 +52,18 @@ public class Bullet extends Actor {
      */
     @Override
     public List<Actor> update(long elapsedMillis) {
-        if (ChronoUnit.MILLIS.between(bornTime, LocalTime.now()) > lifespan * 1000d) {
+        if (ChronoUnit.MILLIS.between(bornTime, LocalTime.now()) > lifespan * 1000d)
             destroy();
-        }
         return super.update(elapsedMillis);
+    }
+
+    /**
+     * Behavior when colliding with an {@link Actor}.
+     *
+     * @param actor Actor colliding with.
+     */
+    @Override
+    public void collidingWith(Actor actor) {
+        damageBy(actor.getHealth());
     }
 }

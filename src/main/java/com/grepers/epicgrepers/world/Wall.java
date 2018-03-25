@@ -1,30 +1,40 @@
 package com.grepers.epicgrepers.world;
 
 import com.grepers.epicgrepers.collisions.CollisionRectangle;
-import com.grepers.epicgrepers.config.ConfigProvider;
 import javafx.geometry.Point2D;
-
-import java.util.Map;
+import lombok.Getter;
 
 /**
  * Wall representation in the world.
  */
+@Getter
 public class Wall extends Actor {
 
-    private double width;
-    private double height;
-    private double health; // points
+    private double width; // meters
+    private double depth; // meters
 
     /**
      * Constructor initializing values.
      *
      * @param initialPos Initial position.
+     * @param width      Wall width in X.
+     * @param depth      Wall depth in Y.
      */
-    public Wall(Point2D initialPos, double width, double height) {
+    Wall(Point2D initialPos, double width, double depth) {
         super(initialPos, Point2D.ZERO, 0d);
-        Map<String, Double> greperConfig = ConfigProvider.getActor(getClass().getSimpleName());
-        health = greperConfig.get("health");
+        this.width = width;
+        this.depth = depth;
         setCollisionGroup(getId().toString());
-        setCollisionShape(new CollisionRectangle(initialPos, width, height));
+        setCollisionShape(new CollisionRectangle(initialPos, width, depth));
+    }
+
+    /**
+     * This method should be implemented in order to add behavior when colliding with a {@link Bullet}.
+     *
+     * @param bullet Bullet actor.
+     */
+    @Override
+    public void collidingWith(Bullet bullet) {
+        damageBy(bullet.getDamage());
     }
 }

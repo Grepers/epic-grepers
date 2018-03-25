@@ -5,7 +5,7 @@ import javafx.geometry.Point2D;
 import org.apache.commons.math3.util.Pair;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,47 +14,51 @@ import java.util.List;
 @Component
 public class CollisionDetection {
 
-    public List<Pair<Actor, Actor>> checkForCollisions(List<Actor> actors) {
-        //TODO verificar todos con todos y devolver la lista, despues World resolvera los eventos.
-        //TODO tener en cuenta que entre miembros del mismo collisionGroup no se colisionan
+    public <A extends Actor> List<Pair<A, A>> checkForCollisions(List<A> actors) {
 
-        //        //TODO check for collisions ??? this works for any combination of 'areColliding' {@link CollisionShape} impls
-        //        List<Greper> grepers = new ArrayList<>();
-        //        List<Bullet> bullets = new ArrayList<>();
-        //
-        //        actors.forEach(a -> {
-        //            if (a instanceof Greper) {
-        //                grepers.add((Greper) (a));
-        //            } else if (a instanceof Bullet) {
-        //                bullets.add((Bullet) (a));
-        //            }
-        //        });
-        //
-        //        for (int i = 0; i < grepers.size(); i++) {
-        //            for (int j = 0; j < bullets.size(); j++) {
-        //                // avoid taking health from the bullet's shooter
-        //                if (grepers.get(i).getCollisionGroup().equals(bullets.get(j).getCollisionGroup())) {
-        //                    continue;
-        //                }
-        //                if (CollisionDetection.getInstance().areColliding(grepers.get(i), bullets.get(j))) {
-        //                    // grepers.get(i).reduceHealth(Bullet.DAMAGE); TODO change for the method that reduces health
-        //                }
-        //            }
-        //        }
-        return Collections.emptyList();
+        List<Pair<A, A>> actorsColliding = new ArrayList<>();
+
+        for (int i = 0; i < actors.size(); i++) {
+            for (int j = i; j < actors.size(); j++) {
+                if (areColliding(actors.get(i).getCollisionShape(), actors.get(j).getCollisionShape())) {
+                    actorsColliding.add(Pair.create(actors.get(i), actors.get(j)));
+                }
+            }
+        }
+
+
+        return actorsColliding;
     }
 
-    public <R extends CollisionRectangle> boolean areColliding(R rect1, R rect2) {
+    private <S extends CollisionShape> boolean areColliding(S shape1, S shape2) {
+        boolean result;
+        if (shape1 instanceof CollisionRectangle) {
+            if (shape2 instanceof CollisionRectangle) {
+                result = areColliding((CollisionRectangle) shape1, (CollisionRectangle) shape2);
+            } else {
+                result = areColliding((CollisionRectangle) shape1, (CollisionCircle) shape2);
+            }
+        } else {
+            if (shape2 instanceof CollisionRectangle) {
+                result = areColliding((CollisionRectangle) shape2, (CollisionCircle) shape1);
+            } else {
+                result = areColliding((CollisionCircle) shape1, (CollisionCircle) shape2);
+            }
+        }
+        return result;
+    }
+
+    private <R extends CollisionRectangle> boolean areColliding(R rect1, R rect2) {
         //TODO cuando dice "* 2" deberia usar doubles ? ( recordar que no se trata de pixels sino metros )
         return (Math.abs(rect1.getLeft() - rect2.getLeft())) * 2 < (Math.abs(rect1.getRight() - rect2.getRight())) &&
                 (Math.abs(rect1.getBottom() - rect2.getBottom())) * 2 < (Math.abs(rect1.getTop() - rect2.getTop()));
     }
 
-    public <C extends CollisionCircle> boolean areColliding(C circle1, C circle2) {
+    private <C extends CollisionCircle> boolean areColliding(C circle1, C circle2) {
         return circle1.getCenter().distance(circle2.getCenter()) < circle1.getRadius() + circle2.getRadius();
     }
 
-    public <C extends CollisionCircle, R extends CollisionRectangle> boolean areColliding(R rect, C circle) {
+    private <C extends CollisionCircle, R extends CollisionRectangle> boolean areColliding(R rect, C circle) {
         //TODO colision entre rect y circle se podra simplificar ?
         Point2D center = circle.getCenter();
         if (pointRectIntersect(rect.getTop(), rect.getLeft(), center.getX(), center.getY())
