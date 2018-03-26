@@ -57,7 +57,7 @@ public class Greper extends Sentient {
         List<Actor> newActors = super.update(elapsedMillis);
         if (firing && ChronoUnit.MILLIS.between(lastFiredTime, LocalTime.now()) > 1000d / firerate) {
             newActors.add(new Bullet(
-                    getPos().add(new Point2D(sin(getRot()), cos(getRot())).multiply(radius)),
+                    getPos().add(new Point2D(cos(getRot()), sin(getRot())).multiply(radius)),
                     getRot(), getCollisionGroup()));
             lastFiredTime = LocalTime.now();
         }

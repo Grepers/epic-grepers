@@ -2,5 +2,5 @@ Wall:
   initialPos:
     x: 10
     y: 0
-  width: 5
+  width: .3
   depth: 10

@@ -39,7 +39,7 @@ public class Bullet extends Actor {
         lifespan = greperConfig.get("lifespan");
         maxVel = greperConfig.get("maxVel");
         damage = greperConfig.get("damage");
-        setVel(new Point2D(sin(initialRot), cos(initialRot)).multiply(maxVel));
+        setVel(new Point2D(cos(initialRot), sin(initialRot)).multiply(maxVel));
         setCollisionGroup(collisionGroup);
         setCollisionShape(new CollisionCircle(initialPos, radius));
     }
