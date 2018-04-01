@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      # Upgrade AWS CLI to the latest version
+      - pip install --upgrade awscli
+      - chmod a+x gradlew
+  pre_build:
+    commands:
+      - echo Test started on `date`
+      - ./gradlew clean build test
+  build:
+    commands:
+      - echo Build started on `date`
+      - ./gradlew clean build
+  post_build:
+    commands:
+      - echo Entering post_build phase...
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - source: 'build/libs/epic-grepers-0.0.1-SNAPSHOT.jar'
+      destination: '/opt/epic-grepers.jar'
