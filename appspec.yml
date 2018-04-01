@@ -1,18 +1,10 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /home/ec2-user/app
+  - source: build/libs/epic-grepers-0.0.1-SNAPSHOT.jar
+    destination: /home/ec2-user/epic-grepers.jar
 hooks:
-  BeforeInstall:
-    - location: scripts/before-install.sh
-      runas: root
-      timeout: 300
   AfterInstall:
     - location: scripts/after-install.sh
-      runas: root
       timeout: 300
-  ApplicationStart:
-    - location: scripts/app-start.sh
       runas: root
-      timeout: 60
