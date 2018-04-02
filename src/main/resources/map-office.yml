@@ -1,18 +1,19 @@
-Wall:
-  initialPos:
-    x: 10
-    y: 0
-  width: .3
-  depth: 10
-Wall:
-  initialPos:
-    x: 0
-    y: 10
-  width: 10
-  depth: .3
-Wall:
-  initialPos:
-    x: -10
-    y: 0
-  width: .3
-  depth: 10
+actors:
+  - Wall:
+    initialPos:
+      x: 5
+      y: 0
+    width: .3
+    depth: 10
+  - Wall:
+    initialPos:
+      x: 0
+      y: 5
+    width: 10.3
+    depth: .3
+  - Wall:
+    initialPos:
+      x: -5
+      y: 0
+    width: .3
+    depth: 10

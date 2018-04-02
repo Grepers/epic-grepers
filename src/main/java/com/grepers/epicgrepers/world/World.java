@@ -45,16 +45,15 @@ public class World {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
         try {
             JsonNode rootNode = objectMapper.readTree(new URL(map));
-            rootNode.fields().forEachRemaining(entry -> {
+            for(JsonNode actor : rootNode.get("actors")) {
                 //TODO cargar actores desde el mapa en yml se podra hacer con reflection ?
-                if (entry.getKey().equals("Wall")) {
-                    JsonNode value = entry.getValue();
+                if (actor.has("Wall")) {
                     actors.add(new Wall(
-                            new Point2D(value.findValue("x").asDouble(), value.findValue("y").asDouble()),
-                            value.findValue("width").asDouble(),
-                            value.findValue("depth").asDouble()));
+                            new Point2D(actor.findValue("x").asDouble(), actor.findValue("y").asDouble()),
+                            actor.findValue("width").asDouble(),
+                            actor.findValue("depth").asDouble()));
                 }
-            });
+            }
         } catch (IOException e) {
             log.error("Cannot load map.", e);
         }

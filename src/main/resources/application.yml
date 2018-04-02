@@ -1,4 +1,5 @@
-map: "https://raw.githubusercontent.com/Grepers/epic-grepers/master/src/main/resources/map-office.yml"
+#map: "https://raw.githubusercontent.com/Grepers/epic-grepers/master/src/main/resources/map-office.yml"
+map: "classpath:map-office.yml"
 actors:
   Greper:
     sightAperture: 2
