@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class World {
     public final void setup() {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
         try {
-            JsonNode rootNode = objectMapper.readTree(getClass().getResource(map));
+            JsonNode rootNode = objectMapper.readTree(new URL(map));
             rootNode.fields().forEachRemaining(entry -> {
                 //TODO cargar actores desde el mapa en yml se podra hacer con reflection ?
                 if (entry.getKey().equals("Wall")) {

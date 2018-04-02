@@ -1,14 +1,14 @@
 package com.grepers.epicgrepers.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
 /**
  * Configuration provider for the world elements.
  */
-@Component
+@Configuration
 @ConfigurationProperties
 public class ConfigProvider {
 

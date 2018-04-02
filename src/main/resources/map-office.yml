@@ -4,3 +4,15 @@ Wall:
     y: 0
   width: .3
   depth: 10
+Wall:
+  initialPos:
+    x: 0
+    y: 10
+  width: 10
+  depth: .3
+Wall:
+  initialPos:
+    x: -10
+    y: 0
+  width: .3
+  depth: 10
